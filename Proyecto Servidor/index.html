@@ -1,23 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urban Style</title>
-    <link rel="styleheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Urban Style</title>
+  <script async src="https://example.com/analytics.js"></script>
+  <script defer src="script.js"></script>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <script src="script.js"></script>
-    <h1>Urban Style</h1>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Longitud</th>
-                <th>Precio</th>
-            </tr>
-        </thead>
+<header>
+  <h1>Urban Style</h1>
+  <p>Usuario: <span id="usuario"></span> | Rol: <span id="rol"></span></p>
+  <p>Cliente: <span id="cliente"></span></p>
+  <p id="entorno"></p>
+</header>
+
+<main>
+  <section class="oferta">
+    <h2>Oferta Relámpago</h2>
+    <p>Tiempo: <span id="contador">15</span> segundos</p>
+    <button id="activar">Activar Oferta Relámpago</button>
+    <p id="estado"></p>
+  </section>
+
+  <section class="card">
+    <h2>Carrito</h2>
+    <p>Chaqueta Denim: 59.90€</p>
+    <p>Camiseta Urban: 19.99€</p>
+    <p>Subtotal: <span id="subtotal"></span></p>
+    <p>Descuento: <span id="descuento"></span></p>
+    <p>IVA (21%): <span id="iva"></span></p>
+    <h3>Total a Pagar: <span id="total"></span></h3>
+    <p>Pedido Nº: <span id="pedido"></span></p>
+  </section>
+
+  <section class="card">
+    <h2>Opiniones</h2>
+    <textarea id="comentario" placeholder="Escribe tu opinión..."></textarea>
+    <button id="enviar">Enviar opinión</button>
+    <div id="resenas"></div>
+  </section>
+</main>
 
 </body>
 </html>
