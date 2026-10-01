@@ -1,12 +1,8 @@
 'use strict';
 
-/* =========================================================
-   URBAN STYLE - app.js
-   ========================================================= */
-
-/* =========================================================
-   1. INICIO DE SESIÓN Y ENTORNO
-   ========================================================= */
+/* 
+   1.2 INICIO DE SESIÓN Y ENTORNO
+*/
 
 // Obtener parámetros de la URL
 const params = new URLSearchParams(window.location.search);
@@ -16,9 +12,9 @@ const rol = params.get('rol') || 'Cliente';
 
 // Información del navegador
 const idioma = navigator.language || 'es-ES';
-const tieneConexion = navigator.onLine;
+const onLine = navigator.onLine;
 
-// Identificador único y seguro para la sesión
+// Identificador unico y seguro para la sesion
 const idSesion = crypto.randomUUID();
 
 // Fecha actual en formato extendido español
@@ -28,14 +24,19 @@ const fechaActual = new Intl.DateTimeFormat('es-ES', {
 }).format(new Date());
 
 
-/* =========================================================
-   2. SANITIZACIÓN DEL PERFIL
-   ========================================================= */
+/* 
+   1.3 SANITIZACIÓN DEL PERFIL
+*/
 // Correo recibido mediante URL
 const correoOriginal = params.get('correo') || '';
 
-// Limpiar espacios y convertir a minúsculas
+// Limpia espacio y lo convierte a minusculas
 const correo = correoOriginal.trim().toLowerCase();
 
 // Separar usuario y dominio
 const posicionArroba = correo.indexOf('@');
+const nombreCorreo = posicionArroba != -1 ? correo.slice(0, posicionArroba) : correo;
+const dominio = posicionArroba != -1 ? correo.slice(posicionArroba + 1) : '';
+
+//el id tiene que estar simpre con 6 digitos
+const idCliente 
