@@ -1,48 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Urban Style</title>
-  <script async src="https://example.com/analytics.js"></script>
-  <script defer src="script.js"></script>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Style | Portal de moda y accesorios</title>
+    <link rel="stylesheet" href="styles.css">
+     <!-- Lógica del portal: defer -> se ejecuta cuando el DOM ya está completo, en orden -->
+    <script defer src="script.js"></script>
 </head>
 <body>
+ 
+    <header class="cabecera">
+        <div class="barra-sesion">
+            <p id="info-sesion">Cargando sesión…</p>
+            <p id="info-perfil">Cargando perfil…</p>
+        </div>
+        <h1 class="marca">Urban Style</h1>
+    </header>
+ 
+    <main>
+        <section class="oferta" aria-labelledby="titulo-oferta">
+            <div class="oferta-contenido">
+                <h2 id="titulo-oferta">Oferta Relampago</h2>
+                <p class="oferta-texto">Descuento exclusivo durante 15 segundos.</p>
+                <p class="oferta-contador"><span id="contador-oferta">15</span><span class="unidad"> s</span></p>
+                <p id="mensaje-oferta" class="oferta-mensaje" role="status" aria-live="polite">Pulsa el boton para empezar la cuenta atras.</p>
+                <button id="btn-oferta" class="boton boton-oferta" type="button">Activar Oferta Relampago</button>
+            </div>
+        </section>
+ 
+        <div class="rejilla">
+            <section class="panel" aria-labelledby="titulo-catalogo">
+                <h2 id="titulo-catalogo">Catalogo</h2>
+                <article class="prenda">
+                    <h3>Chaqueta Denim</h3>
+                    <p class="precio">59.90€</p>
+                </article>
+                <article class="prenda">
+                    <h3>Camiseta Urban</h3>
+                    <p class="precio">19.99€</p>
+                </article>
+            </section>
+ 
+            <section class="panel" aria-labelledby="titulo-carrito">
+                <h2 id="titulo-carrito">Tu compra</h2>
+                <div id="desglose-carrito" class="desglose"></div>
+            </section>
+        </div>
+ 
+        <section class="panel panel-ancho" aria-labelledby="titulo-opiniones">
+            <h2 id="titulo-opiniones">Opiniones</h2>
+ 
+            <form id="form-resena" class="formulario">
+                <label for="texto-resena">Cuéntanos qué te parecen las prendas</label>
+                <textarea id="texto-resena" rows="3" placeholder="Escribe tu reseña" required></textarea>
+                <button class="boton" type="submit">Publicar reseña</button>
+            </form>
+ 
+            <ul id="lista-resenas" class="resenas"></ul>
+        </section>
+    </main>
+ 
 
-<header>
-  <h1>Urban Style</h1>
-  <p>Usuario: <span id="usuario"></span> | Rol: <span id="rol"></span></p>
-  <p>Cliente: <span id="cliente"></span></p>
-  <p id="entorno"></p>
-</header>
-
-<main>
-  <section class="oferta">
-    <h2>Oferta Relámpago</h2>
-    <p>Tiempo: <span id="contador">15</span> segundos</p>
-    <button id="activar">Activar Oferta Relámpago</button>
-    <p id="estado"></p>
-  </section>
-
-  <section class="card">
-    <h2>Carrito</h2>
-    <p>Chaqueta Denim: 59.90€</p>
-    <p>Camiseta Urban: 19.99€</p>
-    <p>Subtotal: <span id="subtotal"></span></p>
-    <p>Descuento: <span id="descuento"></span></p>
-    <p>IVA (21%): <span id="iva"></span></p>
-    <h3>Total a Pagar: <span id="total"></span></h3>
-    <p>Pedido Nº: <span id="pedido"></span></p>
-  </section>
-
-  <section class="card">
-    <h2>Opiniones</h2>
-    <textarea id="comentario" placeholder="Escribe tu opinión..."></textarea>
-    <button id="enviar">Enviar opinión</button>
-    <div id="resenas"></div>
-  </section>
-</main>
-
+ 
 </body>
 </html>
