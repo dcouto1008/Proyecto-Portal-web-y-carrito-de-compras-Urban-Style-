@@ -3,7 +3,6 @@
 /* 
    1.2 INICIO DE SESIÓN Y ENTORNO
 */
-
 // Obtener parámetros de la URL
 const params = new URLSearchParams(window.location.search);
 
@@ -23,7 +22,6 @@ const fechaActual = new Intl.DateTimeFormat('es-ES', {
     timeStyle: 'medium'
 }).format(new Date());
 
-
 /* 
    1.3 SANITIZACIÓN DEL PERFIL
 */
@@ -42,7 +40,6 @@ const dominio = posicionArroba != -1 ? correo.slice(posicionArroba + 1) : '';
 const idClienteOriginal = params.get('id') || 7;
 const idCliente = String(idClienteOriginal).padStart(6, '0');
  
- 
 /*
     1.4 ASIGNACIONES POR DEFECTO
 */
@@ -50,16 +47,16 @@ let apodo = params.get('apodo') || '';
 let membresia = params.get('membresia');
 let prendasRegalo = params.has('regalo') ? Number(params.get('regalo')) : null;
  
-// || porque un texto vacío ("") también cuenta como "sin apodo"
+// si es falso le pone Cliente VIP
 apodo = apodo || 'Cliente VIP';
  
-// ??= solo asigna si el valor es null o undefined
-membresia ??= 'Básica';
+// si es null o indefinido pone Basica
+membresia ??= 'Basica';
  
-// Con ??= un 0 real NO se sobreescribe
+//solo reemplaza si es null o indefinido
 prendasRegalo ??= 2;
  
-
+//aqui busca elementos html y con .textContent introduce informacion
 document.getElementById('info-sesion').textContent =
     `Usuario: ${usuario} | Rol: ${rol} | Idioma: ${idioma} | ` +
     `Online: ${onLine ? 'Sí' : 'No'} | Sesión: ${idSesion} | ${fechaActual}`;
@@ -67,7 +64,6 @@ document.getElementById('info-sesion').textContent =
 document.getElementById('info-perfil').textContent =
     `Cliente nº ${idCliente} | ${apodo} | ${nombreCorreo}@${dominio} | ` +
     `Membresía: ${membresia} | Prendas de regalo: ${prendasRegalo}`;
- 
  
 /*
     2. CATÁLOGO Y OPERACIONES FINANCIERAS
@@ -90,13 +86,13 @@ const formatoEuro = new Intl.NumberFormat('es-ES', {
 const desglose = document.getElementById('desglose-carrito');
  
 // 2.2 Validar el subtotal antes de operar
-if (Number.isFinite(subtotal)) {
+if (Number.isFinite(subtotal)) {//calcula el total del pedido 
     const descuento = parseFloat(cuponTexto) || 0;
     const baseImponible = subtotal - descuento;
     const iva = baseImponible * IVA;
     const total = baseImponible + iva;
     numeroPedido++;
- 
+    // creo las lineas que van a salir
     const lineas = [
         'Subtotal: ' + formatoEuro.format(subtotal),
         'Descuento: ' + formatoEuro.format(descuento),
@@ -104,16 +100,15 @@ if (Number.isFinite(subtotal)) {
         'Total a Pagar: ' + formatoEuro.format(total),
         'Pedido nº ' + numeroPedido
     ];
- 
+    //creo <p> para el desglose para cada linea
     for (const linea of lineas) {
         const p = document.createElement('p');
         p.textContent = linea;
         desglose.appendChild(p);
     }
 } else {
-    desglose.textContent = 'Error: el subtotal no es un número válido.';
+    desglose.textContent = 'Error: el subtotal no es un número valido.';
 }
- 
  
 /*
     3. OFERTA RELÁMPAGO
@@ -128,16 +123,16 @@ botonOferta.addEventListener('click', function () {
     // Si ya está en marcha, ignoramos los clics
     if (ofertaActiva) return;
     ofertaActiva = true;
- 
+    //hace la cuenta atras
     let segundos = 15;
     contador.textContent = segundos;
     mensajeOferta.textContent = '¡Oferta Relámpago activa!';
  
     const temporizador = setInterval(function () {
-        segundos--;
+        segundos--;//van bajando lo segundos de 1 en 1
         contador.textContent = segundos;
  
-        // 3.3 Al llegar a 0: parar, resetear el control y avisar
+        //cuando llega a 0: para, resetea el control y avisa
         if (segundos <= 0) {
             clearInterval(temporizador);
             ofertaActiva = false;
@@ -145,14 +140,10 @@ botonOferta.addEventListener('click', function () {
         }
     }, 1000);
 });
- 
- 
 /*
     4. RESEÑAS, SEGURIDAD Y PERSISTENCIA
 */
-let resenas = [];
- 
-// 4.3 Leer del almacenamiento (protegido con try/catch)
+let resenas = [];//creamos un array para poner las reseñas 
 try {
     resenas = JSON.parse(localStorage.getItem('resenas')) || [];
 } catch (error) {
@@ -160,35 +151,31 @@ try {
     resenas = [];
 }
  
-// 4.4 Pintar reseñas con textContent (el HTML/scripts se ven como texto plano)
 function mostrarResenas() {
     const lista = document.getElementById('lista-resenas');
-    lista.textContent = '';
+    lista.textContent = '';//muestra las reseñas
  
-    for (const r of resenas) {
+    for (const r of resenas) {//para cada reseña crea un <li> 
         const li = document.createElement('li');
-        li.textContent = `${r.usuario} (${r.hora}): ${r.comentario}`;
-        lista.appendChild(li);
+        li.textContent = `${r.usuario} (${r.hora}): ${r.comentario}`;//introduce los datos
+        lista.appendChild(li);//lo añade
     }
 }
  
 // 4.1 y 4.2 Enviar una reseña nueva
 document.getElementById('form-resena').addEventListener('submit', function (evento) {
-    evento.preventDefault();
- 
+    evento.preventDefault();//añade un sumit y esto hace que evita recargar la pagina
     const campo = document.getElementById('texto-resena');
     const comentario = campo.value.trim();
-    if (comentario === '') return;
- 
-    resenas.push({
+    if (comentario === '') return;//comprueba que no esta vacio y si lo esta termina la funcion  
+    resenas.push({ //añade al arrray reseñas con fecha, usuario, identificador y comentario
         id: Date.now(),
         usuario: usuario,
         hora: new Date().toLocaleTimeString('es-ES'),
         comentario: comentario
     });
  
-    // Guardar (protegido con try/catch)
-    try {
+    try {//convierte el array de reseñas a JSON y lo guarda en localStorage, lo hago con el try para los errores
         localStorage.setItem('resenas', JSON.stringify(resenas));
     } catch (error) {
         console.error('Error al guardar las reseñas:', error);
@@ -198,4 +185,4 @@ document.getElementById('form-resena').addEventListener('submit', function (even
     campo.value = '';
 });
  
-mostrarResenas();
+mostrarResenas();//muestra las reseñas
